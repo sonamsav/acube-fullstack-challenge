@@ -11,11 +11,11 @@ missing feature. Your job is to fix the bug, build the feature, and prove both w
 
 ## Tech stack
 
-| Layer    | Tech                                                      |
-| -------- | -------------------------------------------------------- |
-| Backend  | NestJS 10, Prisma 5, SQLite, class-validator             |
-| Frontend | React 18, Vite 5, Tailwind v4, shadcn/ui, Zustand        |
-| Tests    | Jest + ts-jest (backend)                                 |
+| Layer    | Tech                                              |
+| -------- | ------------------------------------------------- |
+| Backend  | NestJS 10, Prisma 5, SQLite, class-validator      |
+| Frontend | React 18, Vite 5, Tailwind v4, shadcn/ui, Zustand |
+| Tests    | Jest + ts-jest (backend)                          |
 
 ```
 fullstack-challenge-template/
@@ -80,7 +80,7 @@ Open http://localhost:5173 and you'll see the task board. The dev server proxies
 ### 1. Get the project running
 
 Click **Use this template → Create a new repository** (top of the repo page) to make
-your own copy — please **don't fork it**. Then clone *your* copy and bring up the
+your own copy — please **don't fork it**. Then clone _your_ copy and bring up the
 backend and frontend as described above.
 
 > ⚠️ The backend **does not start as shipped** — it crashes on boot. Getting it to
@@ -104,7 +104,7 @@ curl -i -X POST http://localhost:3000/api/tasks \
   -d '{"title":"No description here"}'
 ```
 
-Creating a task *without* a description is supposed to be allowed (the field is optional
+Creating a task _without_ a description is supposed to be allowed (the field is optional
 in both the UI and the validation layer). Identify the **root cause** and fix it **properly
 in the NestJS service layer** — not by papering over it at the validation or HTTP layer.
 A task created without a description should be saved successfully and return `201`.

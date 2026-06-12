@@ -1,15 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Inject, forwardRef } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotificationsService } from '../notifications/notifications.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 
 @Injectable()
 export class TasksService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly notifications: NotificationsService,
-  ) {}
-
+constructor(
+  private readonly prisma: PrismaService,
+  @Inject(forwardRef(() => NotificationsService))
+  private readonly notifications: NotificationsService,
+) {}
   listTasks() {
     return this.prisma.task.findMany({
       orderBy: [{ priority: 'desc' }, { createdAt: 'desc' }],
@@ -26,7 +26,11 @@ export class TasksService {
 
   async createTask(dto: CreateTaskDto) {
     // Build a short single-line preview that the task board renders in the list.
-    const preview = dto.description.trim().replace(/\s+/g, ' ').slice(0, 140);
+    // const preview = dto.description.trim().replace(/\s+/g, ' ').slice(0, 140);
+    //changed
+    const preview = dto.description
+  ? dto.description.trim().replace(/\s+/g, ' ').slice(0, 140)
+  : '';
 
     const task = await this.prisma.task.create({
       data: {
@@ -42,4 +46,20 @@ export class TasksService {
 
     return task;
   }
+  async completeTask(id: string) {
+  const task = await this.prisma.task.findUnique({
+    where: { id },
+  });
+
+  if (!task) {
+    throw new NotFoundException(`Task ${id} not found`);
+  }
+
+return this.prisma.task.update({
+  where: { id },
+  data: {
+    status: 'DONE',
+  },
+});
+}
 }
